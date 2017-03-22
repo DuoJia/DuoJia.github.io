@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+<style>
+
+html, body, #map {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+	  position: relative;
+	  cursor: pointer;
+	  top: 50%;
+	  left: 50%;
+	  width: 12em;
+	  padding: 1em 2em;
+	  background: #000;
+	  color: #fff;
+	  border-radius: 8px;
+	  border: solid 2px #fff;
+	  font: 16px "Helvetica Neue", sans-serif;
+}
+
+#floating-panel {
+  position: absolute;
+  top: 10px;
+  left: 25%;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+  text-align: center;
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+  padding-left: 10px;
+}
+
+.stations, .stations svg {
+  position: absolute;
+}
+
+.stations svg {
+  width: 60px;
+  height: 20px;
+  padding-right: 100px;
+  font: 10px sans-serif;
+}
+
+.stations circle {
+  fill: brown;
+  stroke: black;
+  stroke-width: 1.5px;
+}
+
+.marker, .marker svg {
+  position: absolute;
+}
+.marker svg {
+  width: 60px;
+  height: 20px;
+  padding-right: 100px;
+  font: 10px;
+  font-family:"Microsoft JhengHei";
+}
+
+</style>
+<div id="map"></div>
+<script src="//maps.google.com/maps/api/js?key=AIzaSyBpEABn_7XIREJeG4tPjP-tJ8svA_6nAbM"></script>
+<script src="d3/d3.min.js"></script>
+<body>
+    <div id="floating-panel">
+      <input onclick="drawAirport();" type=button value="Draw Airport">
+      <input onclick="drawMRT();" type=button value="Draw MRT">
+	  <input onclick="drawTWC();" type=button value="Draw TWCountry">
+      <input onclick="clearOverlay();" type=button value="Clear Overlay">
+    </div>
+
+	<script>
+	//git fetch github    ->    git checkout -f   ->   git pull origin master
+	//https://zlargon.gitbooks.io/git-tutorial/content/remote/sync.html
+
+	//所有畫的東西都要加到marker陣列內
+	var layer;
+	var overlays = [];
+	var AirportOverlay;
+	var MRTOverlay;
+	var TWCOverlay;
+	var USGSOverlay;
+	//新增overlay讓我們可以在上面畫圖
+	AirportOverlay.prototype = new google.maps.OverlayView();
+	MRTOverlay.prototype = new google.maps.OverlayView();
+	TWCOverlay.prototype = new google.maps.OverlayView();
+	USGSOverlay.prototype = new google.maps.OverlayView();
+	
+	overlays.push(AirportOverlay);
+	overlays.push(MRTOverlay);
+	overlays.push(TWCOverlay);
+	overlays.push(USGSOverlay);
+	
+	function initMap() {
+	  	// Create the Google Map 導入Google map
+		var map = new google.maps.Map(d3.select("#map").node(), {
+		  zoom: 8, //初始的縮放大小
+		  center: new google.maps.LatLng(62.281819, -150.287132),
+		  zoomControl:false,
+		  zoomControlOptions:{
+			position: google.maps.ControlPosition.BOTTOM_LEFT
+		  },
+		  mapTypeControl: true,
+		  mapTypeControlOptions: {
+			position: google.maps.ControlPosition.TOP_RIGHT,
+			style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+				mapTypeIds: [
+				google.maps.MapTypeId.ROADMAP,
+				google.maps.MapTypeId.SATELLITE ,
+				google.maps.MapTypeId.HYBRID ,
+				google.maps.MapTypeId.TERRAIN
+			]
+		  },
+		  scaleControl: false,
+		  streetViewControl: false,
+		  rotateControl: true,
+		  mapTypeId: google.maps.MapTypeId.TERRAIN
+		});
+	  var bounds = new google.maps.LatLngBounds(
+		  new google.maps.LatLng(62.281819, -150.287132),
+		  new google.maps.LatLng(62.400471, -150.005608));
+
+	  // The photograph is courtesy of the U.S. Geological Survey.
+	  var srcImage = 'https://developers.google.com/maps/documentation/' +
+		  'javascript/examples/full/images/talkeetna.png';
+
+	  // The custom USGSOverlay object contains the USGS image,
+	  // the bounds of the image, and a reference to the map.
+	  overlays[3] = new USGSOverlay(bounds, srcImage, map);
+	}
+	
+	function USGSOverlay(bounds, image, map) {
+	  // Initialize all properties.
+	  this.bounds_ = bounds;
+	  this.image_ = image;
+	  this.map_ = map;
+
+	  // Define a property to hold the image's div. We'll
+	  // actually create this div upon receipt of the onAdd()
+	  // method so we'll leave it null for now.
+	  this.div_ = null;
+
+	  // Explicitly call setMap on this overlay.
+	  this.setMap(map);
+	}
+	USGSOverlay.prototype.onAdd = function() {
+	  var div = document.createElement('div');
+	  div.style.borderStyle = 'none';
+	  div.style.borderWidth = '0px';
+	  div.style.position = 'absolute';
+
+	  // Create the img element and attach it to the div.
+	  var img = document.createElement('img');
+	  img.src = this.image_;
+	  img.style.width = '100%';
+	  img.style.height = '100%';
+	  img.style.position = 'absolute';
+	  div.appendChild(img);
+
+	  this.div_ = div;
+
+	  // Add the element to the "overlayLayer" pane.
+	  var panes = this.getPanes();
+	  panes.overlayLayer.appendChild(div);
+	};
+	// [END region_attachment]
+
+	// [START region_drawing]
+	USGSOverlay.prototype.draw = function() {
+
+	  // We use the south-west and north-east
+	  // coordinates of the overlay to peg it to the correct position and size.
+	  // To do this, we need to retrieve the projection from the overlay.
+	  var overlayProjection = this.getProjection();
+
+	  // Retrieve the south-west and north-east coordinates of this overlay
+	  // in LatLngs and convert them to pixel coordinates.
+	  // We'll use these coordinates to resize the div.
+	  var sw = overlayProjection.fromLatLngToDivPixel(this.bounds_.getSouthWest());
+	  var ne = overlayProjection.fromLatLngToDivPixel(this.bounds_.getNorthEast());
+
+	  // Resize the image's div to fit the indicated dimensions.
+	  var div = this.div_;
+	  div.style.left = sw.x + 'px';
+	  div.style.top = ne.y + 'px';
+	  div.style.width = (ne.x - sw.x) + 'px';
+	  div.style.height = (sw.y - ne.y) + 'px';
+	};
+	// [END region_drawing]
+
+	// [START region_removal]
+	// The onRemove() method will be called automatically from the API if
+	// we ever set the overlay's map property to 'null'.
+	USGSOverlay.prototype.onRemove = function() {
+	  this.div_.parentNode.removeChild(this.div_);
+	  this.div_ = null;
+	};
+	// [END region_removal]
+
+	google.maps.event.addDomListener(window, 'load', initMap);
+	//清除overlay
+	function clearOverlay() {
+	while(overlays[0])
+		{
+		  overlays.pop().setMap(null);
+		}
+	  /*AirportOverlay=null;
+	  AirportOverlay.setMap(null);
+	  MRTOverlay=null;
+	  MRTOverlay.setMap(null);
+	  TWCOverlay=null;
+	  TWCOverlay.setMap(null);*/
+	}
+
+	function drawAirport(){
+		//畫機場圖
+		// Load the station data. When the data comes back, create an overlay.
+		d3.json("GEOJSON/stations.json", function(error, data) {
+		  if (error) throw error;
+		  // Add the container when the overlay is added to the map.
+		  AirportOverlay.onAdd = function() {
+			var layer = d3.select(this.getPanes().overlayLayer).append("div")
+				.attr("class", "stations");
+
+			// Draw each marker as a separate SVG element.
+			// We could use a single SVG, but what size would it have?
+			AirportOverlay.draw = function() {
+			  var projection = this.getProjection(),
+				  padding = 10;
+
+			  var marker = layer.selectAll("svg")
+				  .data(d3.entries(data))
+				  .each(transform) // update existing markers
+				  .enter().append("svg")
+				  .each(transform)
+				  .attr("class", "marker");
+
+			  // Add a circle.
+			  marker.append("circle")
+				  .attr("r", 4.5)
+				  .attr("cx", padding)
+				  .attr("cy", padding);
+
+			  // Add a label.
+			  marker.append("text")
+				  .attr("x", padding + 7)
+				  .attr("y", padding)
+				  .attr("dy", ".31em")
+				  .text(function(d) { return d.key; });
+
+				function transform(d) {
+					d = new google.maps.LatLng(d.value[1], d.value[0]);
+					d = projection.fromLatLngToDivPixel(d);
+					return d3.select(this)
+						.style("left", (d.x - padding) + "px")
+						.style("top", (d.y - padding) + "px");
+				}
+			};
+		};
+		AirportOverlay.onRemove= function() {
+		  this.layer.remove();
+		};
+		  // Bind our overlay to the map…
+		  AirportOverlay.setMap(map);
+		});
+	}
+
+	function drawMRT(){
+		//畫台灣捷運站點
+		d3.csv("GEOJSON/MRT.csv", function(error, MRT) {
+		  if (error) throw error;
+		  //新增overLay到googleMap上
+		  MRTOverlay.onAdd = function() {
+			var layer = d3.select(this.getPanes().overlayLayer).append("div")
+				.attr("class", "stations");
+
+			MRTOverlay.draw = function() {
+			  var projection = this.getProjection(),
+				  padding = 16;
+
+			  var marker = layer.selectAll("svg")
+				  .data(d3.entries(MRT))
+				  .each(transform) // update existing markers
+				  .enter().append("svg:svg")
+				  .each(transform)
+				  .attr("class", "marker");
+
+			  //畫圓點
+			  marker.append("circle")
+				  .attr("r", 4.5)
+				  .attr("cx", padding)
+				  .attr("cy", padding);
+
+			  // Add a label.
+			  marker.append("svg:text")
+				  .attr("x", padding + 7)
+				  .attr("y", padding)
+				  .attr("dy", ".31em")
+				  .text(function(d) { return d.value.name; });
+
+				function transform(d) {
+					d = new google.maps.LatLng(d.value.lat, d.value.lng);
+					d = projection.fromLatLngToDivPixel(d);
+					return d3.select(this)
+						.style("left", (d.x - padding) + "px")
+						.style("top", (d.y - padding) + "px");
+				}
+			};
+		};
+		MRTOverlay.onRemove= function() {
+		  this.layer.remove();
+		};
+		  // 加到google map
+		  MRTOverlay.setMap(map);
+		});
+	}
+
+	function drawTWC(){
+		//畫台灣人口、城鎮
+		d3.json("GEOJSON/Taiwan_CountryPopulation.json", 
+		function(error, TWC) {
+		  if (error) throw error;
+		  console.log(TWC);
+		  //新增overLay到googleMap上
+		  TWCOverlay.onAdd = function() {
+			var layer = d3.select(this.getPanes().overlayLayer).append("div")
+				.attr("class", "country");
+
+			TWCOverlay.draw = function() {
+			  var projection = this.getProjection(),
+				  padding = 16;
+
+			  var marker = layer.selectAll("svg")
+				  .data(d3.entries(TWC))
+				  .each(transform) // update existing markers
+				  .enter().append("svg:svg")
+				  .each(transform)
+				  .attr("class", "marker");
+
+			  //畫圓點
+			  marker.append("circle")
+				  .attr("r", 4.5)
+				  .attr("cx", padding)
+				  .attr("cy", padding);
+
+			  // Add a label.
+			  marker.append("svg:text")
+				  .attr("x", padding)
+				  .attr("y", padding)
+				  .attr("dy", ".31em")
+				  .text(function(d) { return d.key; });
+
+				function transform(TWC) {
+
+					console.log(TWC.value.Latitude);
+					d = new google.maps.LatLng(TWC.value.Latitude, TWC.value.Longitude);
+					d = projection.fromLatLngToDivPixel(d);
+					return d3.select(this)
+						.style("left", (d.x - padding))
+						.style("top", (d.y - padding));
+				}
+			};
+		};
+		TWCOverlay.onRemove= function() {
+		  this.layer.remove();
+		};
+		  // 加到google map
+		  TWCOverlay.setMap(map);
+		});
+	}
+	</script>
+</body>

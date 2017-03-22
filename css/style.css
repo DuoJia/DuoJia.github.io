@@ -1,0 +1,49 @@
+/* Style for-- Whole HTML */
+	#chart {
+		  height: 360px;
+		  margin: 0 auto;
+		  position: relative;
+		  width: 360px;
+		  align:center;
+	}
+	#area1 {
+		  height: 900px;
+		  margin: 0 auto;
+		  position: relative;
+		  width: 800px;
+		  align:center;
+	}
+	#area2_percentage_bar_chart {
+		  height: 900px;
+		  margin: 0 auto;
+		  position: relative;
+		  width: 1000px;
+		  align:center;
+	}
+	#area3_stacked_area_chart {
+		  height: 800px;
+		  margin: 0 auto;
+		  position: relative;
+		  width: 800px;
+		  align:center;
+	}
+/* Button  */
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JavaScript Test Program</title>
+    <meta charset="UTF-8"/>
+    <script>
+      function uploadConfirmation(){
+        alert("Data Loaded!");
+      }
+      function displayData(){
+        var dataset = document.getElementById("uploaded_data").value;
+        var show = [];
+        for (var i=0; i < dataset.length; i++) {
+          show.push('<span>' + dataset[i] + '</span>');
+        }
+    </script>
+  </head>
+  <body>
+	<h1>My Test Web Page</h1>
+    <form>
+      Upload some files?
+		  <br/>
+		  <input type="file" id="uploaded_data"/>
+		  <output id="csv">CSV</output>
+    </form>
+	<form>
+		<input type="file" id="files" name="files[]" multiple />
+		<HR color="#E80C7A" size="10" width="50%">
+		<div id="drop_zone">Drop files here</div>
+		<output id="list">List</output>
+		<output id="Drop_output">Drop_output</output>
+	</form>
+		<script>
+		  function handleFileSelect(evt) {
+			evt.stopPropagation();
+			evt.preventDefault();
+			var files = evt.target.files; // FileList object
+			// files is a FileList of File objects. List some properties.
+			var output = [];
+			for (var i = 0, f; f = files[i]; i++) {
+			  output.push('<li><strong>',escape(f.name),
+						  '</strong> (', f.type || 'n/a', ') - ',
+						  f.size, ' bytes, last modified: ',
+						  f.lastModifiedDate? f.lastModifiedDate.toLocaleDateString() : 'n/a',
+						  '</li>');
+			}
+			document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+		  }
+		  function handleDragOver(evt) {
+			evt.stopPropagation();
+			evt.preventDefault();
+			evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+		  }
+		  // Setup the dnd listeners.
+		  var dropZone = document.getElementById('drop_zone');
+		  dropZone.addEventListener('dragover', handleDragOver, false);
+		  dropZone.addEventListener('drop', handleFileSelect, false);
+		  
+		  function readSingleFile(evt) {
+			var f = evt.target.uploaded_data[0]; 
+			if (f) {
+			  var r = new FileReader();
+			  r.onload = function(e) { 
+				  var contents = e.target.result;
+				  document.write("File Uploaded! <br />" + "name: " + f.name + "<br />" + "content: " + contents + "<br />" + "type: " + f.type + "<br />" + "size: " + f.size + " bytes <br />");
+
+				  var lines = contents.split("\n"), output = [];
+				  for (var i=0; i<lines.length; i++){
+					output.push("<tr><td>" + lines[i].split(",").join("</td><td>") + "</td></tr>");
+				  }
+				  output = "<table>" + output.join("") + "</table>";
+				  document.getElementById('csv').innerHTML = '<ul>' + output.join('') + '</ul>';
+				  document.write(output);
+			 }
+			  r.readAsText(f);
+			  document.write(output);
+			} else { 
+			  alert("Failed to load file");
+			}
+		}
+		document.getElementById('files').addEventListener('change', handleFileSelect, false);
+		document.getElementById('uploaded_data').addEventListener('change', readSingleFile);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,54 @@
+<html> 
+  <head> 
+        <meta charset="utf-8">  
+  </head> 
+<body> 
+<script src="d3/d3.min.js" charset="utf-8"></script> 
+<script>
+	var width =1200;
+	var height =1200;
+	var svg_pie = d3.select('body')
+		.append("svg")
+		.attr("width",width)
+		.attr("height",height)
+		.attr("id","svg_pie")
+		.style("border", "3px solid black");//畫邊線
+	
+	d3.select("#svg_pie").attr("align","right"); //位置
+	
+	var dataset = [ 30 , 10 , 43 , 55 , 13 ];
+	var pie = d3.pie();
+	var piedata = pie(dataset); //給值 會直接透過Layout轉成繪製pie chart所需的資料 包含角度、弧度等
+	var outerRadius = 500;
+	var innerRadius = 0;
+	var arc = d3.arc() //弧生成器
+		.outerRadius(outerRadius)
+		.innerRadius(innerRadius);
+	
+	var arcs = svg_pie.selectAll("g") //在SVG內新增足量的分組元素g，每一組用來存放跟弧相關的元素
+		.data(piedata)
+		.enter()
+		.append("g")
+		.attr("transform","translate("+(width/2) +","+(width/2 +")"));
+	
+	//color 顏色比例尺，根據傳入的index獲得對應的顏色。
+	var color = d3.scaleOrdinal(d3.schemeCategory10);   //十種顏色的比例尺
+	//針對每個g增加path
+	arcs.append("path")
+		.attr("fill",function(d,i){
+			return color(i);
+		})
+		.attr("d",function(d){
+			return arc(d); //上面定義的弧生成器
+		})
+	arcs.append("text")
+		.attr("transform",function(d){
+			return "translate(" +arc.centroid(d)+")"; //加在弧線中心
+		})
+		.style('font-size', '100px')
+		.attr("text-anchor" , "middle")
+		.text(function(d){
+			return d.data; //d已包含d.startAngle, d.endAngle, d.data...等
+		});
+</script>
+</body>

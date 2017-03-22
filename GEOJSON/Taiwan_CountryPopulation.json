@@ -1,0 +1,112 @@
+{
+  "新北市": {
+    "population": 3961374,
+    "Longitude": 121.27,
+    "Latitude": 25.1
+  },
+  "高雄市": {
+    "population": 2777461,
+    "Longitude": 120.17,
+    "Latitude": 22.38
+  },
+  "臺中市": {
+    "population": 2712948,
+    "Longitude": 120.37,
+    "Latitude": 24.11
+  },
+  "臺北市": {
+    "population": 2695649,
+    "Longitude": 121.65,
+    "Latitude": 25.2
+  },
+  "桃園縣": {
+    "population": 2054260,
+    "Longitude": 121.13,
+    "Latitude": 24.57
+  },
+  "臺南市": {
+    "population": 1883493,
+    "Longitude": 120.14,
+    "Latitude": 23.7
+  },
+  "彰化縣": {
+    "population": 1292126,
+    "Longitude": 120.34,
+    "Latitude": 23.58
+  },
+  "屏東縣": {
+    "population": 849326,
+    "Longitude": 120.32,
+    "Latitude": 22.28
+  },
+  "雲林縣": {
+    "population": 706688,
+    "Longitude": 120.27,
+    "Latitude": 23.48
+  },
+  "苗栗縣": {
+    "population": 566918,
+    "Longitude": 120.46,
+    "Latitude": 24.25
+  },
+  "新竹縣": {
+    "population": 536111,
+    "Longitude": 121,
+    "Latitude": 24.5
+  },
+  "嘉義縣": {
+    "population": 526028,
+    "Longitude": 120.23,
+    "Latitude": 23.36
+  },
+  "南投縣": {
+    "population": 515081,
+    "Longitude": 120.51,
+    "Latitude": 24.3
+  },
+  "宜蘭縣": {
+    "population": 458784,
+    "Longitude": 121.49,
+    "Latitude": 24.52
+  },
+  "新竹市": {
+    "population": 431029,
+    "Longitude": 120.58,
+    "Latitude": 24.48
+  },
+  "基隆市": {
+    "population": 373597,
+    "Longitude": 121.44,
+    "Latitude": 25.8
+  },
+  "花蓮縣": {
+    "population": 333531,
+    "Longitude": 121.36,
+    "Latitude": 23.59
+  },
+  "嘉義市": {
+    "population": 270885,
+    "Longitude": 120.27,
+    "Latitude": 23.29
+  },
+  "臺東縣": {
+    "population": 224931,
+    "Longitude": 121,
+    "Latitude": 37
+  },
+  "金門縣": {
+    "population": 126156,
+    "Longitude": 118.25,
+    "Latitude": 24.3
+  },
+  "澎湖縣": {
+    "population": 101482,
+    "Longitude": 119.33,
+    "Latitude": 23.34
+  },
+  "連江縣": {
+    "population": 12481,
+    "Longitude": 119.53,
+    "Latitude": 26.12
+  }
+}
