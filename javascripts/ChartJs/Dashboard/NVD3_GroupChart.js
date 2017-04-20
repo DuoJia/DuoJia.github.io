@@ -60,7 +60,9 @@ function handleFileSelect_groupchart(evt) {
 //Generate some nice data.
 function exampleData() {
   return stream_layers(3,10+Math.random()*100,.1).map(function(data, i) {
-    return {
+    console.log(i)
+	console.log(data)
+	return {
       key: 'Stream #' + i,
       values: data
     };
