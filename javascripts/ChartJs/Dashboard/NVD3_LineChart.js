@@ -1,7 +1,7 @@
 /*These lines are all chart setup.  Pick and choose which chart features you want to utilize. */
 //資料預載
 nv.addGraph(function() {
-	var chart = nv.models.lineChart()
+	var linechart = nv.models.lineChart()
 								.margin({left: 100})  //Adjust chart margins to give the x-axis some breathing room.
 								.useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
 								.duration(350)  //how fast do you want the lines to transition?
@@ -10,22 +10,22 @@ nv.addGraph(function() {
 								.showXAxis(true)        //Show the x-axis
 								;
 
-	chart.xAxis     //Chart x-axis settings
+	linechart.xAxis     //Chart x-axis settings
 					  .axisLabel('Which Month');
 					  //.tickFormat(d3.format(',r'));
 
-	chart.yAxis     //Chart y-axis settings
+	linechart.yAxis     //Chart y-axis settings
 					  .axisLabel('Amounts of tourists (people)');
 					  //.tickFormat(d3.format('.00f'));
 
 	d3.select('#LineChart svg')    //Select the <svg> element you want to render the chart in.   
 					  .datum(sinAndCos())         //Populate the <svg> element with chart data...
-					  .call(chart);          //Finally, render the chart!
+					  .call(linechart);          //Finally, render the chart!
 				  //console.log(results.data);
 				  //console.log(sinAndCos());
 				  //Update the chart when window resizes.
-	nv.utils.windowResize(function() { chart.update() });
-				  return chart;
+	nv.utils.windowResize(function() { linechart.update() });
+				  return linechart;
 });
 //讀檔
 function handleFileSelect_Linechart(evt) {
@@ -38,7 +38,7 @@ function handleFileSelect_Linechart(evt) {
 			  complete: function(results) {
 				
 				nv.addGraph(function() {
-				  var chart = nv.models.lineChart()
+				  var linechart = nv.models.lineChart()
 								.margin({left: 100})  //Adjust chart margins to give the x-axis some breathing room.
 								.useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
 								.duration(350)  //how fast do you want the lines to transition?
@@ -47,22 +47,22 @@ function handleFileSelect_Linechart(evt) {
 								.showXAxis(true)        //Show the x-axis
 								;
 
-				  chart.xAxis     //Chart x-axis settings
+				  linechart.xAxis     //Chart x-axis settings
 					  .axisLabel('Which Month');
 					  //.tickFormat(d3.format(',r'));
 
-				  chart.yAxis     //Chart y-axis settings
+				  linechart.yAxis     //Chart y-axis settings
 					  .axisLabel('Amounts of tourists (people)');
 					  //.tickFormat(d3.format('.00f'));
 
 				  d3.select('#LineChart svg')    //Select the <svg> element you want to render the chart in.   
 					  .datum(data_tran(results.data))         //Populate the <svg> element with chart data...
-					  .call(chart);          //Finally, render the chart!
+					  .call(linechart);          //Finally, render the chart!
 				  //console.log(results.data);
 				  //console.log(sinAndCos());
 				  //Update the chart when window resizes.
-				  nv.utils.windowResize(function() { chart.update() });
-				  return chart;
+				  nv.utils.windowResize(function() { linechart.update() });
+				  return linechart;
 				});
 			}
 	});

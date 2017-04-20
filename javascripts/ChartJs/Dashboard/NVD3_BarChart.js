@@ -1,6 +1,6 @@
 //預載資料
 nv.addGraph(function() {
-	var chart = nv.models.discreteBarChart()
+	var barchart = nv.models.discreteBarChart()
 	  .x(function(d) { return d.label })    //Specify the data accessors.
 	  .y(function(d) { return d.value })
 	  .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
@@ -10,10 +10,10 @@ nv.addGraph(function() {
 	;
     d3.select('#BarChart svg')
 	  .datum(exampleData())
-	  .call(chart);
-	  nv.utils.windowResize(chart.update);
+	  .call(barchart);
+	  nv.utils.windowResize(barchart.update);
 
-				  return chart;
+				  return barchart;
 });
 
 function handleFileSelect_Barchart(evt) {
@@ -26,7 +26,7 @@ function handleFileSelect_Barchart(evt) {
 			  complete: function(results) {
 				  
 				nv.addGraph(function() {
-				  var chart = nv.models.discreteBarChart()
+				  var barchart = nv.models.discreteBarChart()
 					  .x(function(d) { return d.label })    //Specify the data accessors.
 					  .y(function(d) { return d.value })
 					  .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
@@ -34,19 +34,19 @@ function handleFileSelect_Barchart(evt) {
 					  .showValues(true)       //...instead, show the bar value right on top of each bar.
 					  .duration(350)
 					  ;
-				  chart.xAxis     //Chart x-axis settings
+				  barchart.xAxis     //Chart x-axis settings
 					  .axisLabel('Which Month');
 
-				  chart.yAxis     //Chart y-axis settings
+				  barchart.yAxis     //Chart y-axis settings
 					  .axisLabel('Amounts of tourists (people)');
 					  
 				  d3.select('#BarChart svg')
 					  .datum(bardata_tran(results.data))
-					  .call(chart);
+					  .call(barchart);
 
-				  nv.utils.windowResize(chart.update);
+				  nv.utils.windowResize(barchart.update);
 
-				  return chart;
+				  return barchart;
 				});
 			}
 	});
