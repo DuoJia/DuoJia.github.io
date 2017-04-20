@@ -1,6 +1,6 @@
 <head>
   <meta charset="utf-8">
-  <title>Simple Line Chart - NVD3</title>
+  <title>Dash Board</title>
   <meta name="author" content="Novus Partners">
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
@@ -54,38 +54,35 @@
 	<br>
 	<br>
 	
-    <h2 id='simple_pie_chart'>Pie Chart</h2>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
+    <h2 id='simple_line_chart'>Dash Board</h2>
 	<div class=container><div class=starter-template>
 		<br> 
-		<h4>Data type: csv</h4>
+		<h4>Data type: csv, csv勿留空白行</h4>
 		<br> 
-		<h6>must include column name: </h6>
-		<h6>spot, cnt</h6>
-		<h6>石門, 200</h6>
-		<h6>石門, 300</h6>
+		<h4>must include column name: </h4>
+		<h6>cmonth, cnt</h6>
+		<h6> 201601, 200</h6>
+		<h6> 201602, 300</h6>
 	</div>
-	<div id='chart_board' class='span4'>
-		<div id='chart'   class='span4' width= '100%' float = 'left'>
-		  Regular pie chart
-		  <svg style='height:500px;width:400px'> </svg>
-		</div>
-		</style>
-		<div id='chart2' class='span4' width= '100%' float = 'left'>
-			Donut chart
-		<svg style='height:500px;width:400px'> </svg>
-		</div>
-	</div> <!-- End for div chart_board -->
-	<script src='/javascripts/ChartJs/NVD3_PieChart.js' type='text/javascript'> </script>
+	<!-- 上傳按鈕 -->
+	<label class="btn btn-default btn-file">
+		Browse <input type="file" style="display: none;" id="csv-file" name="files"/>>
+	</label>
 	
-	<footer role="contentinfo">
-			<p>
-			  Copyright &copy; 2014 - <a href="http://www.novus.com">Novus Partners</a> -
-			  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-			</p>
-	</footer>
+	<div id='chart'>
+	  <svg style='height:500px'> </svg>
+	</div>
+
+	<script src='/javascripts/ChartJs/NVD3_BarChart.js' type='text/javascript'> </script>
+	<!--CSV parseer-->
+	<script src="javascripts/papaparse.min.js"></script>
+	<!--JQuery-->
+	<script src="javascripts/jquery-3.1.1.min.js"></script>
+	<!--JQuery After頁面載入-->
+	<script>
+	$(document).ready(function(){ //JQuery，在頁面載入完成後，發生ready event
+		$("#csv-file").change(handleFileSelect_DashBoard);
+	});
+	</script>
+	
 </body>
