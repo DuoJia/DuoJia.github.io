@@ -24,7 +24,7 @@ nv.addGraph(function() {
 				  //console.log(results.data);
 				  //console.log(sinAndCos());
 				  //Update the chart when window resizes.
-	nv.utils.windowResize(function() { chart.update() });
+	nv.utils.windowResize(function() { linechart.update() });
 				  return linechart;
 });
 //讀檔
