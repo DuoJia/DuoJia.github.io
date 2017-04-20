@@ -1,25 +1,25 @@
 //Data 預載
 nv.addGraph(function() {
-    var chart = nv.models.multiBarChart()
+    var groupchart = nv.models.multiBarChart()
       .duration(350)
       .reduceXTicks(true)   //If 'false', every single x-axis tick label will be rendered.
       .rotateLabels(0)      //Angle to rotate x-axis labels.
       .showControls(true)   //Allow user to switch between 'Grouped' and 'Stacked' mode.
       .groupSpacing(0.1)    //Distance between each group of bars.
     ;
-		chart.xAxis
+		groupchart.xAxis
 			.tickFormat(d3.format(',f'));
 
-		chart.yAxis
+		groupchart.yAxis
 			.tickFormat(d3.format(',.1f'));
 
 		d3.select('#GroupBarChart svg')
 			.datum(exampleData())
-			.call(chart);
+			.call(groupchart);
 
-		nv.utils.windowResize(chart.update);
+		nv.utils.windowResize(groupchart.update);
 
-		return chart;
+		return groupchart;
 });
 	
 function handleFileSelect_groupchart(evt) {
@@ -32,25 +32,25 @@ function handleFileSelect_groupchart(evt) {
 			  complete: function(results) {
 			
 				nv.addGraph(function() {
-				var chart = nv.models.multiBarChart()
+				var groupchart = nv.models.multiBarChart()
 				  .duration(350)
 				  .reduceXTicks(true)   //If 'false', every single x-axis tick label will be rendered.
 				  .rotateLabels(0)      //Angle to rotate x-axis labels.
 				  .showControls(true)   //Allow user to switch between 'Grouped' and 'Stacked' mode.
 				  .groupSpacing(0.1)    //Distance between each group of bars.
 				;
-					chart.xAxis
+					groupchart.xAxis
 						.axisLabel('Which Spot');
-					chart.yAxis
+					groupchart.yAxis
 						.axisLabel('Avg stay hours (hour)')
 						.tickFormat(d3.format(',.3f'));
 					d3.select('#GroupBarChart svg')
 						.datum(data_tran(results.data))
-						.call(chart);
+						.call(groupchart);
 
-					nv.utils.windowResize(chart.update);
+					nv.utils.windowResize(groupchart.update);
 
-					return chart;
+					return groupchart;
 				});
 			 }
 	});
