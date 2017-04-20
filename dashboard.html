@@ -38,6 +38,7 @@
 				<ul class="nav navbar-nav">
 					<li class=active><a href=#>Home</a>
 					<li>	<a href=./map.html>Map</a>
+					<li>	<a href=./dashboard.html>Dash Board</a>
 					<li>	<a href=./multi_chart.html>Multi-Chart in a page</a>
 					<li>	<a href=./NVD3_LineChart.html>NVD3_LineChart</a>
 					<li>	<a href=./NVD3_BarChart.html>NVD3_BarChart</a>
@@ -54,7 +55,7 @@
 	<br>
 	<br>
 	
-    <h2 id='simple_line_chart'>Dash Board</h2>
+    <h2 id='dashboard'>Dash Board</h2>
 	<div class=container><div class=starter-template>
 		<br> 
 		<h4>Data type: csv, csv勿留空白行</h4>
@@ -69,11 +70,38 @@
 		Browse <input type="file" style="display: none;" id="csv-file" name="files"/>>
 	</label>
 	
-	<div id='chart'>
-	  <svg style='height:500px'> </svg>
+	<div id='chart_board' class='span4' style='height:1500px ; width:1000px ; float:left ; padding:5px ; margin: 5px ; font-family:微軟正黑體'>
+		<div id='Area1' style= 'width: 100% ; float : left'>
+			<div id='GroupBarChart' style= 'width: 65% ; float : left'>
+			   Group Bar Chart
+			<svg style='height:500px ; width:650px'> </svg>
+			</div>
+			
+			<div id='Area2' style= 'width: 35% ; float : left ; '>
+				<div id='PieChart1' style= 'float : left'>
+				 Pie Chart 1
+				<svg style='height:250px ; width:350px'> </svg>
+				</div>
+				<div id='PieChart2' style= 'float : left'>
+				 Pie Chart 2
+				<svg style='height:250px ; width:350px'> </svg>
+				</div>
+			</div>
+		</div>
+		<div id='Line Chart' style= 'float : left'>
+			<svg style='height:400px ; width:1000px'> </svg>
+		</div>
+		<div id='Bar Chart' style= 'float : left'>
+			<svg style='height:400px ; width:1000px'> </svg>
+		</div>
+
+	</div> <!-- End for div chart_board -->
 	</div>
 
-	<script src='/javascripts/ChartJs/NVD3_BarChart.js' type='text/javascript'> </script>
+	<script src='/javascripts/ChartJs/Dashboard/NVD3_GroupChart.js' type='text/javascript'> </script>
+	<script src='/javascripts/ChartJs/Dashboard/NVD3_BarChart.js' type='text/javascript'> </script>
+	<script src='/javascripts/ChartJs/Dashboard/NVD3_LineChart.js' type='text/javascript'> </script>
+	<script src='/javascripts/ChartJs/Dashboard/NVD3_PieChart.js' type='text/javascript'> </script>
 	<!--CSV parseer-->
 	<script src="javascripts/papaparse.min.js"></script>
 	<!--JQuery-->
