@@ -9,7 +9,7 @@ nv.addGraph(function() {
 	  .duration(350)
 	;
     d3.select('#chart svg')
-	  .datum(exampleData())
+	  .datum(BarChartExampleData())
 	  .call(chart);
 	  nv.utils.windowResize(chart.update);
 
@@ -68,7 +68,7 @@ function bardata_tran(data) {
 
 
 //Each bar represents a single discrete quantity.
-function exampleData() {
+function BarChartExampleData() {
  return  [ 
     {
       key: "Cumulative Return",

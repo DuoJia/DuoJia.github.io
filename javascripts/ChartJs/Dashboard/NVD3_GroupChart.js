@@ -13,10 +13,10 @@ nv.addGraph(function() {
 		groupchart.yAxis
 			.tickFormat(d3.format(',.1f'));
 		
-		console.log(exampleData());
+		console.log(GroupBarExampleData());
 		
 		d3.select('#GroupBarChart svg')
-			.datum(exampleData())
+			.datum(GroupBarExampleData())
 			.call(groupchart);
 
 		nv.utils.windowResize(groupchart.update);
@@ -60,7 +60,7 @@ function handleFileSelect_groupchart(evt) {
 
 }
 //Generate some nice data.
-function exampleData() {
+function GroupBarExampleData() {
   return stream_layers(3,10+Math.random()*100,.1).map(function(data, i) {
 	return {
       key: 'Stream #' + i,
