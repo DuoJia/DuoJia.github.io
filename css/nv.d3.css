@@ -336,6 +336,7 @@ svg .title {
 .nvd3.nv-pie .nv-slice text {
   stroke: #000;
   stroke-width: 0;
+  font-family:微軟正黑體;
 }
 
 .nvd3.nv-pie path {
