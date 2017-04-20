@@ -15,7 +15,7 @@ nv.addGraph(function() {
 
 		d3.select('#GroupBarChart svg')
 			.datum(exampleData())
-			.call(chart);
+			.call(groupchart);
 
 		nv.utils.windowResize(groupchart.update);
 
@@ -46,7 +46,7 @@ function handleFileSelect_groupchart(evt) {
 						.tickFormat(d3.format(',.3f'));
 					d3.select('#GroupBarChart svg')
 						.datum(data_tran(results.data))
-						.call(chart);
+						.call(groupchart);
 
 					nv.utils.windowResize(groupchart.update);
 
