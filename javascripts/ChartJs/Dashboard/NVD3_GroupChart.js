@@ -78,23 +78,23 @@ function data_tran(data) {
 		if (i == 0){}
 		else if (data[i].datetype != data[i-1].datetype) {
 			keyDistinct = keyDistinct+1;
-			console.log("KD:",keyDistinct);
-			console.log(data[i].datetype,data[i-1].datetype);
+			//console.log("KD:",keyDistinct);
+			//console.log(data[i].datetype,data[i-1].datetype);
 		}
 		else {}
 	}
-	console.log(data.length);
-	console.log(keyDistinct);
+	//console.log(data.length);
+	//console.log(keyDistinct);
 	
 	for(var i=0;i < keyDistinct; i++){
 		var values=[];
 		for (var j=i * (data.length/keyDistinct) ; j<(i+1)*(data.length/keyDistinct) ; j++){
-			console.log(data[j].spot);
+			//console.log(data[j].spot);
 			values.push({ x : data[j].spot, y : data[j].avg});
 		}
-		console.log(values);
+		//console.log(values);
 		returnValue.push({key : data[(i*(data.length/keyDistinct))].datetype, values: values})
 	}
-	console.log(returnValue);
+	//console.log(returnValue);
 	return returnValue;
 }

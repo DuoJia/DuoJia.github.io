@@ -113,24 +113,24 @@ function data_tran(data) {
 		if (i == 0){}
 		else if (data[i].spot != data[i-1].spot) {
 			keyDistinct = keyDistinct+1;
-			console.log(keyDistinct);
-			console.log(data[i].spot,data[i-1].spot);
+			//console.log(keyDistinct);
+			//console.log(data[i].spot,data[i-1].spot);
 		}
 		else {}
 	}
-	console.log(data.length);
-	console.log(keyDistinct);
+	//console.log(data.length);
+	//console.log(keyDistinct);
 	
 	for(var i=0;i < keyDistinct; i++){
 		var values=[];
 		for (var j=i * (data.length/keyDistinct) ; j<(i+1)*(data.length/keyDistinct) ; j++){
-			console.log(data[j].cmonth);
+			//console.log(data[j].cmonth);
 			values.push({ x : data[j].cmonth, y : data[j].cnt});
 		}
-		console.log(values);
+		//console.log(values);
 		returnValue.push({key : data[(i*(data.length/keyDistinct))].spot, values: values})
 	}
-	console.log(returnValue);
+	//console.log(returnValue);
 	return returnValue;
 }
 

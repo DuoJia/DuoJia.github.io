@@ -55,9 +55,29 @@ function bardata_tran(data) {
 	console.log(data);
 	var returnValue=[];
 	var values=[];
-	for (var j = 0 ; j < data.length ; j++){
-		console.log(data[j].cmonth);
-		values.push({ label : data[j].cmonth, value : data[j].cnt});
+	
+	// 不同的Key值有幾個
+	var keyDistinct = 1;
+	for (var i=0;i<data.length;i++){
+		if (i == 0){}
+		else if (data[i].cmonth != data[i-1].cmonth) {
+			keyDistinct = keyDistinct+1;
+			console.log("KD:",keyDistinct);
+			console.log(data[i].cmonth,data[i-1].cmonth);
+		}
+		else {}
+	}
+
+	for (var i = 0 ; i < data.length/keyDistinct ; i++){
+		var cntsum=[];
+		for( var j = 0; j < data.length; j++){
+			if data[i].cmonth ==  data[j].cmonth{
+				cntsum[i] = cntsum[i] + data[j].cnt;
+			}
+		}
+		console.log(data[i].cmonth);
+		console.log(cntsum[i]);
+		values.push({ label : data[i].cmonth, value : cntsum[i]});
 	}
 	console.log(values);
 	returnValue.push({key : "大溪2016總人數", values: values})
