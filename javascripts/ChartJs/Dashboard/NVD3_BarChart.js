@@ -12,7 +12,7 @@ nv.addGraph(function() {
 	  .datum(BarChartExampleData())
 	  .call(barchart);
 	  nv.utils.windowResize(barchart.update);
-				  return chart;
+				  return barchart;
 });
 
 function handleFileSelect_Barchart(evt) {
@@ -45,7 +45,7 @@ function handleFileSelect_Barchart(evt) {
 
 				  nv.utils.windowResize(barchart.update);
 
-				  return chart;
+				  return barchart;
 				});
 			}
 	});
