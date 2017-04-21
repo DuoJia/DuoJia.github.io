@@ -60,8 +60,8 @@ function bardata_tran(data) {
 	var KDV = [];
 	for (var i=0;i<data.length;i++){
 		KDV[i] = data[i].cmonth;
-		keyDistinct = a.filter(function(itm, i, a) {
-			return i == a.indexOf(itm);
+		keyDistinct = KDV.filter(function(itm, i, KDV) {
+			return i == KDV.indexOf(itm);
 		});
 	}
 	console.log(keyDistinct);
