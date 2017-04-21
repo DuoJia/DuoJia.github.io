@@ -70,7 +70,7 @@ function bardata_tran(data) {
 	for (var i = 0 ; i < keyDistinct.length ; i++){
 		for( var j = 0; j < data.length; j++){
 			if (keyDistinct[i] ==  data[j].cmonth){
-				cntsum[i] = parseInt(cntsum[i]) + parseInt(data[j].cnt);
+				cntsum.splice(i, 0, parseInt(cntsum[i]) + parseInt(data[j].cnt));
 				//console.log(keyDistinct[i]);
 				console.log(cntsum[i]);
 				//console.log(parseInt(data[j].cnt));
