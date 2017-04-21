@@ -71,7 +71,7 @@ function bardata_tran(data) {
 	for (var i = 0 ; i < data.length/keyDistinct ; i++){
 		var cntsum=[];
 		for( var j = 0; j < data.length; j++){
-			if data[i].cmonth ==  data[j].cmonth{
+			if (data[i].cmonth ==  data[j].cmonth){
 				cntsum[i] = cntsum[i] + data[j].cnt;
 			}
 		}
