@@ -11,7 +11,7 @@ nv.addGraph(function() {
 			.tickFormat(d3.format(',f'));
 
 		groupchart.yAxis
-			.tickFormat(d3.format(',.1f'));
+			.tickFormat(d3.format(',.2f'));
 		
 		console.log(GroupBarExampleData());
 		
@@ -45,7 +45,7 @@ function handleFileSelect_groupchart(evt) {
 						.axisLabel('Which Spot');
 					groupchart.yAxis
 						.axisLabel('Avg stay hours (hour)')
-						.tickFormat(d3.format(',.3f'));
+						.tickFormat(d3.format(',.0f'));
 					d3.select('#GroupBarChart svg')
 						.datum(data_tran(results.data))
 						.call(groupchart);
