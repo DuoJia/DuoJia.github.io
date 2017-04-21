@@ -59,7 +59,7 @@ function bardata_tran(data) {
 	var keyDistinct;
 	var KDV = [];
 	for (var i=0;i<data.length;i++){
-		KDV[i] = data[j].cmonth;
+		KDV[i] = data[i].cmonth;
 		keyDistinct = a.filter(function(itm, i, a) {
 			return i == a.indexOf(itm);
 		});
