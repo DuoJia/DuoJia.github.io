@@ -70,10 +70,10 @@ function bardata_tran(data) {
 	for (var i = 0 ; i < keyDistinct.length ; i++){
 		for( var j = 0; j < data.length; j++){
 			if (keyDistinct[i] ==  data[j].cmonth){
-				cntsum[i] = cntsum[i] + parseInt(data[j].cnt);
-				console.log(keyDistinct[i]);
-				console.log(data[j].cmonth);
-				console.log(parseInt(data[j].cnt));
+				cntsum[i] = parseInt(cntsum[i]) + parseInt(data[j].cnt);
+				//console.log(keyDistinct[i]);
+				//console.log(data[j].cmonth);
+				//console.log(parseInt(data[j].cnt));
 			}
 		}
 		console.log(data[i].cmonth);
