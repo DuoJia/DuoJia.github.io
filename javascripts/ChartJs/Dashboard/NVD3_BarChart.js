@@ -65,7 +65,8 @@ function bardata_tran(data) {
 		});
 	}
 	console.log(keyDistinct); //會印出 Distinct 的值有哪一些
-
+	console.log(keyDistinct.length);
+	console.log(data.length)
 	for (var i = 0 ; i < data.length/keyDistinct.length ; i++){
 		var cntsum=[];
 		for( var j = 0; j < data.length; j++){
