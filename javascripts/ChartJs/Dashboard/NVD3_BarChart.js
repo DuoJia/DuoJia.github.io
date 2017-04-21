@@ -72,7 +72,7 @@ function bardata_tran(data) {
 			if (keyDistinct[i] ==  data[j].cmonth){
 				cntsum[i] = parseInt(cntsum[i]) + parseInt(data[j].cnt);
 				//console.log(keyDistinct[i]);
-				//console.log(data[j].cmonth);
+				console.log(cntsum[i]);
 				//console.log(parseInt(data[j].cnt));
 			}
 		}
