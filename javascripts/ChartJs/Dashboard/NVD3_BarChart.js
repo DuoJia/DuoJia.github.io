@@ -64,9 +64,9 @@ function bardata_tran(data) {
 			return i == KDV.indexOf(itm);
 		});
 	}
-	console.log(keyDistinct);
+	console.log(keyDistinct); //會印出 Distinct 的值有哪一些
 
-	for (var i = 0 ; i < data.length/keyDistinct ; i++){
+	for (var i = 0 ; i < data.length/keyDistinct.length ; i++){
 		var cntsum=[];
 		for( var j = 0; j < data.length; j++){
 			if (data[i].cmonth ==  data[j].cmonth){
