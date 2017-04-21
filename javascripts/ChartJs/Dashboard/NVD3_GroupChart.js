@@ -70,7 +70,7 @@ function GroupBarExampleData() {
 }
 
 function data_tran(data) {
-	console.log(data);
+	//console.log(data);
 	var keyDistinct = 1;
 	var returnValue=[];
 	

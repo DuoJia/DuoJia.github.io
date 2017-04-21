@@ -1,6 +1,6 @@
 //預載資料
 nv.addGraph(function() {
-	var barchart = nv.models.discreteBarChart()
+	var chart = nv.models.discreteBarChart()
 	  .x(function(d) { return d.label })    //Specify the data accessors.
 	  .y(function(d) { return d.value })
 	  .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
@@ -8,12 +8,12 @@ nv.addGraph(function() {
 	  .showValues(true)       //...instead, show the bar value right on top of each bar.
 	  .duration(350)
 	;
-    d3.select('#BarChart svg')
-	  .datum(exampleData())
-	  .call(barchart);
-	  nv.utils.windowResize(barchart.update);
+    d3.select('#chart svg')
+	  .datum(BarChartExampleData())
+	  .call(chart);
+	  nv.utils.windowResize(chart.update);
 
-				  return barchart;
+				  return chart;
 });
 
 function handleFileSelect_Barchart(evt) {
@@ -26,7 +26,7 @@ function handleFileSelect_Barchart(evt) {
 			  complete: function(results) {
 				  
 				nv.addGraph(function() {
-				  var barchart = nv.models.discreteBarChart()
+				  var chart = nv.models.discreteBarChart()
 					  .x(function(d) { return d.label })    //Specify the data accessors.
 					  .y(function(d) { return d.value })
 					  .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
@@ -34,19 +34,19 @@ function handleFileSelect_Barchart(evt) {
 					  .showValues(true)       //...instead, show the bar value right on top of each bar.
 					  .duration(350)
 					  ;
-				  barchart.xAxis     //Chart x-axis settings
+				  chart.xAxis     //Chart x-axis settings
 					  .axisLabel('Which Month');
 
-				  barchart.yAxis     //Chart y-axis settings
+				  chart.yAxis     //Chart y-axis settings
 					  .axisLabel('Amounts of tourists (people)');
 					  
-				  d3.select('#BarChart svg')
+				  d3.select('#chart svg')
 					  .datum(bardata_tran(results.data))
-					  .call(barchart);
+					  .call(chart);
 
-				  nv.utils.windowResize(barchart.update);
+				  nv.utils.windowResize(chart.update);
 
-				  return barchart;
+				  return chart;
 				});
 			}
 	});
@@ -55,9 +55,29 @@ function bardata_tran(data) {
 	console.log(data);
 	var returnValue=[];
 	var values=[];
-	for (var j = 0 ; j < data.length ; j++){
-		console.log(data[j].cmonth);
-		values.push({ label : data[j].cmonth, value : data[j].cnt});
+	
+	// 不同的Key值有幾個
+	var keyDistinct = 1;
+	for (var i=0;i<data.length;i++){
+		if (i == 0){}
+		else if (data[i].cmonth != data[i-1].cmonth) {
+			keyDistinct = keyDistinct+1;
+			console.log("KD:",keyDistinct);
+			console.log(data[i].cmonth,data[i-1].cmonth);
+		}
+		else {}
+	}
+
+	for (var i = 0 ; i < data.length/keyDistinct ; i++){
+		var cntsum=[];
+		for( var j = 0; j < data.length; j++){
+			if data[i].cmonth ==  data[j].cmonth{
+				cntsum[i] = cntsum[i] + data[j].cnt;
+			}
+		}
+		console.log(data[i].cmonth);
+		console.log(cntsum[i]);
+		values.push({ label : data[i].cmonth, value : cntsum[i]});
 	}
 	console.log(values);
 	returnValue.push({key : "大溪2016總人數", values: values})
@@ -68,7 +88,7 @@ function bardata_tran(data) {
 
 
 //Each bar represents a single discrete quantity.
-function exampleData() {
+function BarChartExampleData() {
  return  [ 
     {
       key: "Cumulative Return",
