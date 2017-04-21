@@ -67,19 +67,21 @@ function bardata_tran(data) {
 	console.log(keyDistinct); //會印出 Distinct 的值有哪一些
 	console.log(keyDistinct.length);
 	console.log(data.length)
-	for (var i = 0 ; i < keyDistinct.length ; i++){
-		for( var j = 0; j < data.length; j++){
-			if (keyDistinct[i] ==  data[j].cmonth){
-				cntsum.splice(i, 0, parseInt(cntsum[i]) + parseInt(data[j].cnt));
-				//console.log(keyDistinct[i]);
-				console.log(cntsum[i]);
-				//console.log(parseInt(data[j].cnt));
-			}
+	
+	//按照cmonth 相加值
+	var holder = {};
+	data.forEach(function (d) {
+		if(holder.hasOwnProperty(d.cmonth)) {
+		   holder[d.cmonth] = holder[d.cmonth] + d.cnt;
+		} else {       
+		   holder[d.cmonth] = d.cnt;
 		}
-		console.log(data[i].cmonth);
-		console.log(cntsum[i]);
-		values.push({ label : data[i].cmonth, value : cntsum[i]});
+	});
+	
+	for(var prop in holder) {
+		values.push({label: prop, value: holder[prop]});   
 	}
+	
 	console.log(values);
 	returnValue.push({key : "大溪2016總人數", values: values})
 	
