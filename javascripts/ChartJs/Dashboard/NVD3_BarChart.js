@@ -56,16 +56,15 @@ function bardata_tran(data) {
 	var values=[];
 	
 	// 不同的Key值有幾個
-	var keyDistinct = 1;
+	var keyDistinct;
+	var KDV = [];
 	for (var i=0;i<data.length;i++){
-		if (i == 0){}
-		else if (data[i].cmonth != data[i-1].cmonth) {
-			keyDistinct = keyDistinct+1;
-			console.log("KD:",keyDistinct);
-			console.log(data[i].cmonth,data[i-1].cmonth);
-		}
-		else {}
+		KDV[i] = data[j].cmonth;
+		keyDistinct = a.filter(function(itm, i, a) {
+			return i == a.indexOf(itm);
+		});
 	}
+	console.log(keyDistinct);
 
 	for (var i = 0 ; i < data.length/keyDistinct ; i++){
 		var cntsum=[];
