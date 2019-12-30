@@ -9,10 +9,11 @@
 <script src="papaparse.min.js"></script>
 
 <script>
-var data = Papa.parse("https://duojia.github.io/LIFF/QA/QA1.csv", {
-	download: true,
+	Papa.parse("https://duojia.github.io/LIFF/QA/QA1.csv", {
+	download: false,
 	complete: function(results) {
-		console.log(results);
+		console.log(results)
+		data = results;
 	}
 });
 
