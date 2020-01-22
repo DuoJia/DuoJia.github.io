@@ -1,0 +1,84 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日一句</title>
+    <link rel="stylesheet" href="https://duojia.github.io/LIFF/style.css">
+</head>
+
+<body>
+    <div class="input">
+        <label id="cht" for= "Q1">cht</label>
+    </br>
+    <div class="input">
+        <label id="eng" for= "Q1">eng</label>    
+
+    <!-- Javascript 使用Papaparese 讀取QA csv -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>`
+    <script src="https://cdn.staticfile.org/PapaParse/5.1.0/papaparse.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+    <!-- script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>-->
+    <!-- <script src="liff-starter.js"></script> -->
+    
+    </body>
+
+    <script language="javascript">
+
+    var spData = null;
+    function doData(json) {
+        spData = json.feed.entry; //取回來的資料都會在 feed.entry 裡面
+    }
+    
+    function readData(parent) {
+      var data = spData;
+      var rowData = [];
+      var row = 0;
+      var cht = new Array();
+      var eng = new Array();
+
+      for(var r=0; r<data.length; r++) {
+          var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
+          var val = cell["$t"];
+
+           if (cell.col == 1) {
+                rowData = [];
+                row++;
+           }
+           rowData.push(val);
+           cht[r]=rowData[0];
+           eng[r]=rowData[1];
+          
+      }
+
+      //rowData[0]要 移除陣列中重複的element
+      cht = cht.filter(function(elem, index, self) {
+        return index === self.indexOf(elem);
+      });
+      //rowData[1] 要移除空的陣列
+      eng = jQuery.grep(eng, function(n){ return (n); }); 
+
+      //改字
+      $('#cht').html(cht[1]);
+      $('#eng').html(eng[1]);
+
+      console.log("cht:"+cht)
+      console.log("eng:"+eng)
+    }
+
+
+
+
+    //頁面載入時執行
+    $(document).ready(function() {
+        //要執行的JQuery
+        readData($("#data"));
+
+    });
+    
+
+
+    </script>
+
+<script src="https://spreadsheets.google.com/feeds/cells/1sgZcl7U4iiVYCg_oOr4kYvXoyB4_NBSmyWLho2rRKBw/4/public/values?alt=json-in-script&callback=doData"></script>
+    <div id="data"/>
+    <script language="javascript" src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+    <!-- <script language="javascript" src="https://duojia.github.io/LIFF/liff-starter.js"></script> -->
+</body>
