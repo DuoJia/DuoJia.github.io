@@ -10,6 +10,11 @@ input[type=text]:focus {
   margin: 8px 0;
 }
 
+::-webkit-input-placeholder {
+  color: peachpuff;
+  font-size: 18px;
+}
+
 table {
     width: 100%;
     table-layout:fixed;
