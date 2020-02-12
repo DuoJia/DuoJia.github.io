@@ -73,7 +73,7 @@
       var question = new Array();
 
 
-      for(var r=(dd-1)*20; r<(dd-1)*20+20; r=r+2) { //gs$cell 一次會讀整列的東西，所以有n欄，r一次就要+n
+      for(var r=(dd-1)*20; r<(dd-1)*20+20; r=r+1) { //gs$cell 一次會讀整列的東西，所以有n欄，有n欄，要讀到第二欄 必須用+1 +更多才能帶到rowData[1 2 3...n] 供寫入
           var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
           var val = cell["$t"];
            
@@ -85,8 +85,8 @@
                 row++;
            }
            rowData.push(val);
-           question[r]=rowData[0]; //rowData[0] 為第一欄
-           console.log("rowData[0]:"+rowData[0]+"rowData[1]:"+rowData[1]+"rowData[2]:"+rowData[2])
+           question[r]=rowData[0]; //rowData[0] 為每欄每列的資料
+           console.log("rowData[0]:"+rowData[0]+"  rowData[1]:"+rowData[1]+"  rowData[2]:"+rowData[2])
           
       }
 
@@ -134,19 +134,20 @@
       //var reply_JS = document.getElementById("Q1_i").value;  JS抓法
       var reply = [reply01,reply02,reply03,reply04,reply05,reply06,reply07,reply08,reply09,reply10];
 
-        //gs$cell 一次會讀整列的東西，所以有n欄，r一次就要+n ，兩欄的資料 *20 即為 跑10列  
-      for(var r=(dd-1)*20; r<(dd-1)*20+20; r=r+2) {
+        //gs$cell 一次會讀整列的東西，所以有n欄，要讀到第二欄 必須用+1 +更多才能帶到rowData[1 2 3...n] 供寫入
+      for(var r=(dd-1)*20; r<(dd-1)*20+20; r=r+1) {
           var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
           var val = cell["$t"];
 
            if (cell.col == 1) {
                 rowData = [];
-                //row++;
+                row++;
            }
            rowData.push(val);
            question[r]=rowData[0]; //值給question 
-           answer[r]=rowData[1]; //將每行rowData值給answer   //rowData[0] 為第一欄  //rowData[1] 為第二欄
+           answer[r]=rowData[1];//將每行rowData值給answer 
       }
+
 
       answer = jQuery.grep(answer, function(n){ return (n); }); //移除空的陣列
       //移除陣列中重複的element
