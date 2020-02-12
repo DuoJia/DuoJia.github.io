@@ -4,15 +4,16 @@ html {
 }
 
 input[type=text]:focus {
-  border: 3px solid #555;
+  border: 3px solid #555555;
   width: 100%;
   padding: 20px 20px;
-  margin: 8px 0;
+  margin: 6px 0;
 }
 
+// placeholpder input內的預設字
 ::-webkit-input-placeholder {
-  color: peachpuff;
-  font-size: 18px;
+  color: #555555; //灰色
+  font-size: 14px;
 }
 
 table {
