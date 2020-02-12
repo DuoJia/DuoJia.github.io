@@ -49,13 +49,15 @@
     </body>
 
     <script language="javascript">
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
 
-    today = mm + '/' + dd + '/' + yyyy;
-    document.write(today);
+    // 日期處理
+    // var today = new Date();
+    // var dd = String(today.getDate()).padStart(2, '0');
+    // var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    // var yyyy = today.getFullYear();
+
+    // today = mm + '/' + dd + '/' + yyyy;
+    // document.write(today);
 
     var spData = null;
     function doData(json) {
@@ -63,25 +65,29 @@
     }
     
     function readData(parent) {
+      var today = new Date();
+      var dd = today.getDate(); //用日期當作每天執行的參數 (dd-1)*10
       var data = spData;
       var rowData = [];
       var row = 0;
       var question = new Array();
 
-      for(var r=0; r<data.length; r++) {
+
+      for(var r=(dd-1)*20; r<(dd-1)*20+20; r=r+2) { //gs$cell 一次會讀整列的東西，所以有n欄，r一次就要+n
           var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
           var val = cell["$t"];
-        //   console.log("text:"+text)
-        //   console.log("cell[1]:"+cell_.gs$cell.row)
+           
+          console.log("r"+r)
+          console.log("val:"+cell["$t"])
 
            if (cell.col == 1) {
                 rowData = [];
                 row++;
            }
            rowData.push(val);
-           question[r]=rowData[0];
-          //console.log("answer:"+answer)
-          //console.log("question:"+question)
+           question[r]=rowData[0]; //rowData[0] 為第一欄
+           console.log("rowData[0]:"+rowData[0]+"rowData[1]:"+rowData[1]+"rowData[2]:"+rowData[2])
+          
       }
 
       //移除陣列中重複的element
@@ -89,16 +95,18 @@
         return index === self.indexOf(elem);
       });
 
-      $('#Q1').html(question[1]);
-      $('#Q2').html(question[2]);
-      $('#Q3').html(question[3]);
-      $('#Q4').html(question[4]);
-      $('#Q5').html(question[5]);
-      $('#Q6').html(question[6]);
-      $('#Q7').html(question[7]);
-      $('#Q8').html(question[8]);
-      $('#Q9').html(question[9]);
-      $('#Q10').html(question[10]);
+      console.log("question:"+question)
+
+      $('#Q1').html(question[0]);
+      $('#Q2').html(question[1]);
+      $('#Q3').html(question[2]);
+      $('#Q4').html(question[3]);
+      $('#Q5').html(question[4]);
+      $('#Q6').html(question[5]);
+      $('#Q7').html(question[6]);
+      $('#Q8').html(question[7]);
+      $('#Q9').html(question[8]);
+      $('#Q10').html(question[9]);
 
       //console.log("rowData:"+rowData[0])
       //console.log("answer:"+answer)
@@ -106,6 +114,8 @@
     }
 
     function checkAns(parent) {
+      var today = new Date();
+      var dd = today.getDate(); //用日期當作每天執行的參數 (dd-1)*10
       var data = spData;
       var rowData = [];
       var row = 0;
@@ -122,9 +132,10 @@
       var reply09 = $('#Q9_i').val(); 
       var reply10 = $('#Q10_i').val(); 
       //var reply_JS = document.getElementById("Q1_i").value;  JS抓法
-      var reply = ['ans',reply01,reply02,reply03,reply04,reply05,reply06,reply07,reply08,reply09,reply10];
+      var reply = [reply01,reply02,reply03,reply04,reply05,reply06,reply07,reply08,reply09,reply10];
 
-      for(var r=0; r<data.length; r++) {
+        //gs$cell 一次會讀整列的東西，所以有n欄，r一次就要+n ，兩欄的資料 *20 即為 跑10列  
+      for(var r=(dd-1)*20; r<(dd-1)*20+20; r=r+2) {
           var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
           var val = cell["$t"];
 
@@ -133,8 +144,8 @@
                 //row++;
            }
            rowData.push(val);
-           question[r]=rowData[0]; //值給question
-           answer[r]=rowData[1]; //將每行rowData值給answer
+           question[r]=rowData[0]; //值給question 
+           answer[r]=rowData[1]; //將每行rowData值給answer   //rowData[0] 為第一欄  //rowData[1] 為第二欄
       }
 
       answer = jQuery.grep(answer, function(n){ return (n); }); //移除空的陣列
@@ -145,15 +156,15 @@
 
       var correct_number=0;
       var fault_number=0;
-      for(var i=1; i<answer.length;i++){
+      for(var i=0; i<answer.length;i++){
         if(answer[i]==reply[i]){
             correct_number = correct_number+1;
         }
         else{fault_number=fault_number+1;}
       }
       
-      alert("您這次答對"+correct_number+"題；答錯"+fault_number+"題"+'\n'+'答案如下：\n'+question[1]+answer[1]+'\n'+question[2]+answer[2]+'\n'+question[3]+answer[3]+'\n'+question[4]+answer[4]+'\n'
-      +question[5]+answer[5]+'\n'+question[6]+answer[6]+'\n'+question[7]+answer[7]+'\n'+question[8]+answer[8]+'\n'+question[9]+answer[9]+'\n'+question[10]+answer[10]+'\n');
+      alert("您這次答對"+correct_number+"題；答錯"+fault_number+"題"+'\n'+'答案如下：\n'+question[0]+answer[0]+'\n'+question[1]+answer[1]+'\n'+question[2]+answer[2]+'\n'+question[3]+answer[3]+'\n'+question[4]+answer[4]+'\n'
+      +question[5]+answer[5]+'\n'+question[6]+answer[6]+'\n'+question[7]+answer[7]+'\n'+question[8]+answer[8]+'\n'+question[9]+answer[9]);
       console.log("answer:"+answer)
       console.log("reply:"+reply)
     }
