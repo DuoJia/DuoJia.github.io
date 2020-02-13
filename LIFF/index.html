@@ -41,7 +41,9 @@
 
     <!-- Javascript 使用Papaparese 讀取QA csv -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>`
-    <script src="https://cdn.staticfile.org/PapaParse/5.1.0/papaparse.min.js"></script>
+     <!-- <script src="https://cdn.staticfile.org/PapaParse/5.1.0/papaparse.min.js"></script> -->
+
+    <!-- 用於dialog呈現 -->
     <script src="https://cdn.staticfile.org/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
@@ -70,6 +72,7 @@
     function readData(parent) {
       var today = new Date();
       var dd = today.getDate(); //用日期當作每天執行的參數 (dd-1)*10
+      var mm = today.getMonth() +1;//January is 0 dd 最後*mm (看n月開始-n當作1 的參數，每月增加)
       var data = spData;
       var rowData = [];
       var row = 0;
@@ -124,16 +127,16 @@
       var row = 0;
       var question = new Array();
       var answer = new Array();
-      var reply01 = $('#Q1_i').val(); 
-      var reply02 = $('#Q2_i').val(); 
-      var reply03 = $('#Q3_i').val(); 
-      var reply04 = $('#Q4_i').val(); 
-      var reply05 = $('#Q5_i').val(); 
-      var reply06 = $('#Q6_i').val(); 
-      var reply07 = $('#Q7_i').val(); 
-      var reply08 = $('#Q8_i').val(); 
-      var reply09 = $('#Q9_i').val(); 
-      var reply10 = $('#Q10_i').val(); 
+      var reply01 = $('#Q1_i').val().toLowerCase(); //全部轉成小寫
+      var reply02 = $('#Q2_i').val().toLowerCase(); 
+      var reply03 = $('#Q3_i').val().toLowerCase(); 
+      var reply04 = $('#Q4_i').val().toLowerCase(); 
+      var reply05 = $('#Q5_i').val().toLowerCase(); 
+      var reply06 = $('#Q6_i').val().toLowerCase(); 
+      var reply07 = $('#Q7_i').val().toLowerCase(); 
+      var reply08 = $('#Q8_i').val().toLowerCase(); 
+      var reply09 = $('#Q9_i').val().toLowerCase(); 
+      var reply10 = $('#Q10_i').val().toLowerCase(); 
       //var reply_JS = document.getElementById("Q1_i").value;  JS抓法
       var reply = [reply01,reply02,reply03,reply04,reply05,reply06,reply07,reply08,reply09,reply10];
 
@@ -148,11 +151,12 @@
            }
            rowData.push(val);
            question[r]=rowData[0]; //值給question 
-           answer[r]=rowData[1];//將每行rowData值給answer 
+           answer[r]=rowData[1].toLowerCase();//將每行rowData值給answer 
       }
 
 
       answer = jQuery.grep(answer, function(n){ return (n); }); //移除空的陣列
+      
       //移除陣列中重複的element
       question = question.filter(function(elem, index, self) {
         return index === self.indexOf(elem);
