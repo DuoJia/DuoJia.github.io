@@ -90,13 +90,16 @@
       //console.log("url:"+url)
 
       //由於spData()讀取google spread sheet的方法會省略空白，故須計算有幾個周末，扣掉才能對應到每天推播的單字
+      //調整97 100 即可更改題目參數：
+      //getHowmanyWeekendDays('2020-03-02')(從2020-03-09開始計算周末天數)
+      //getDate() - 多少=1，從3/9開始就要-8
       var weekDay = getWeekday();
       var today = new Date();
       if(weekDay >= 6 || weekDay ==0){
-          var dd = today.getDate()-getHowmanyWeekendDays('2020-02-01');
+          var dd = today.getDate()-1-getHowmanyWeekendDays('2020-03-02');
       }
       else if(weekDay <= 5){
-          var dd = today.getDate()-getHowmanyWeekendDays('2020-02-01');
+          var dd = today.getDate()-1-getHowmanyWeekendDays('2020-03-02');
       }
       console.log("dd: "+dd)
       var mm = today.getMonth() +1;//January is 0 dd 最後*mm (看n月開始-n當作1 的參數，每月增加)
@@ -254,11 +257,52 @@
         return weekendDays;
     }
 
+    function initializeApp(data) {
+            //取得用戶身分
+            var userid = data.context.userId;
+            //
+            // ...
+            //
+    }
+
+    //新增
+    function AddRecord(amount, Type, Memo, DateTime) {
+            //資料檢查
+            if (amount == '' || Type == '' || Type.includes('(') || Type.includes(')')) {
+                alert('資料不完整!');
+                return;
+            }
+            //組出新增字串
+            var msg = "/add/";
+            msg = msg + amount + "/";
+            msg = msg + Type + "/";
+            msg = msg + Memo + "/";
+            msg = msg + DateTime + "/";
+            //把訊息以用戶的身分發送給LINE Bot
+            liff.sendMessages([
+                {
+                    type: 'text',
+                    text: msg
+                }
+            ])
+                .then(() => {
+                    //建立成功，關閉視窗
+                    liff.closeWindow();
+                });
+    }
+
+            
+
 
     //頁面載入時執行
     $(document).ready(function() {
         //要執行的JQuery
         readData($("#data"));
+        // liff.init(function (data) {
+        //         initializeApp(data);
+        // });
+
+        
         //PAPA Parse版本，但中文會亂碼，故改採Google sheet 方式
         // Papa.parse("https://duojia.github.io/LIFF/QA/QA1.csv", {
         //     header: true,
