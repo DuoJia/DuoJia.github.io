@@ -1,0 +1,351 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日一試</title>
+    <link rel="stylesheet" href="https://duojia.github.io/LIFF/style.css">
+</head>
+
+<body>
+    <div class="input">
+        <label id="Q1" for= "Q1">Q1</label>
+        <input id ='Q1_i' type="text" placeholder="your answer">
+    </br>
+        <label id="Q2" for= "Q2">Q2</label>
+        <input id ='Q2_i' type="text" placeholder="your answer">
+    </br>
+        <label id="Q3" for= "Q3">Q3</label>
+        <input id = 'Q3_i' type="text" placeholder="your answer">
+    </br>
+        <label id="Q4" for= "Q4">Q4</label>
+        <input id = 'Q4_i' type="text" placeholder="your answer">
+    </br>
+        <label id="Q5" for= "Q5">Q5</label>
+        <input id = 'Q5_i' type="text" placeholder="your answer">
+    </br>
+        <label id="Q6" for= "Q6">Q6</label>
+        <input id = 'Q6_i' type="text" placeholder="your answer">
+    </br>
+        <label id="Q7" for= "Q7">Q7</label>
+        <input id = 'Q7_i' type="text" placeholder="your answer">
+    </br>
+        <label id="Q8" for= "Q8">Q8</label>
+        <input id = 'Q8_i' type="text" placeholder="your answer">
+    </br>
+        <label id="Q9" for= "Q9">Q9</label>
+        <input id = 'Q9_i' type="text" placeholder="your answer">
+    </br>
+        <label id="Q10" for= "Q10">Q10</label>
+        <input id = 'Q10_i' type="text" placeholder="your answer">
+    </br>
+        <button id="sendmessagebutton">送出答案</button>
+    </div>
+
+    <!-- Javascript 使用Papaparese 讀取QA csv -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>`
+     <!-- <script src="https://cdn.staticfile.org/PapaParse/5.1.0/papaparse.min.js"></script> -->
+     
+     <!-- axios 用於api讀取post get資料
+     <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+
+    <!-- 用於dialog呈現 -->
+    <script src="https://cdn.staticfile.org/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+    <!-- script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>-->
+    <!-- <script src="liff-starter.js"></script> -->
+    <div id="dialog" title="Basic dialog" hidden = 'hidden'  > 
+        <img src="https://duojia.github.io/LIFF/pointcard/point2_2.png" alt="Placeholder Image" />
+    </div>
+    </body>
+
+    <script language="javascript">
+    // 日期處理
+    // var today = new Date();
+    // var dd = String(today.getDate()).padStart(2, '0');
+    // var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    // var yyyy = today.getFullYear();
+
+    // today = mm + '/' + dd + '/' + yyyy;
+    // document.write(today);
+
+    var spData = null;
+    function doData(json) {
+        spData = json.feed.entry; //取回來的資料都會在 feed.entry 裡面
+    }
+    
+    function readData(parent) {
+    //   var sheetid = '1sgZcl7U4iiVYCg_oOr4kYvXoyB4_NBSmyWLho2rRKBw';// 每個試算表/d 和/edit中間的ID
+    //   var apikey = 'AIzaSyBpEABn_7XIREJeG4tPjP-tJ8svA_6nAbM'; // google colud platform內的憑證 API KEY
+    //   var sheetname = '「Level 4 單字」的副本'; 
+    //   var cellRange = '!A1:B10';
+    //   var url = "https://sheets.googleapis.com/v4/spreadsheets/"+sheetid+"/values/"+sheetname+cellRange+"?key="+apikey+"&includeGridData=true";
+    
+    //   axios.get(url)
+    //     .then(function (response) {
+    //         console.log(response);                                                                                                                                                    
+    //     })
+    //     .catch(function (error) {
+    //         console.log(error);                                                                                                                                                       
+    //     });                
+
+      //console.log("url:"+url)
+
+      //由於spData()讀取google spread sheet的方法會省略空白，故須計算有幾個周末，扣掉才能對應到每天推播的單字
+      //調整97 100 155 159即可更改題目參數：
+      //getHowmanyWeekendDays('2020-03-02')(從2020-03-09開始計算周末天數)
+      //getDate() - 多少=1，從3/9開始就要-8
+      var weekDay = getWeekday();
+      var today = new Date();
+      if(weekDay >= 6 || weekDay ==0){
+          var dd = today.getDate()-1-getHowmanyWeekendDays('2020-03-02');
+      }
+      else if(weekDay <= 5){
+          var dd = today.getDate()-1-getHowmanyWeekendDays('2020-03-02');
+      }
+      console.log("dd: "+dd)
+      var mm = today.getMonth() +1;//January is 0 dd 最後*mm (看n月開始-n當作1 的參數，每月增加)
+      var data = spData;
+      var rowData = [];
+      var row = 0;
+      var question = new Array();
+
+      for(var r=(dd-1)*20; r<(dd-1)*20+20; r=r+1) { //gs$cell 一次會讀整列的東西，所以有n欄，有n欄，要讀到第二欄 必須用+1 +更多才能帶到rowData[1 2 3...n] 供寫入
+          var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
+          var val = cell["$t"];
+           
+          console.log("r"+r)
+          console.log("val:"+cell["$t"])
+
+           if (cell.col == 1) {
+                rowData = [];
+                row++;
+           }
+           rowData.push(val);
+           question[r]=rowData[0]; //rowData[0] 為每欄每列的資料
+           console.log("rowData[0]:"+rowData[0]+"  rowData[1]:"+rowData[1]+"  rowData[2]:"+rowData[2])
+          
+      }
+
+      //移除陣列中重複的element
+      question = question.filter(function(elem, index, self) {
+        return index === self.indexOf(elem);
+      });
+
+      console.log("question:"+question)
+
+      $('#Q1').html(question[0]);
+      $('#Q2').html(question[1]);
+      $('#Q3').html(question[2]);
+      $('#Q4').html(question[3]);
+      $('#Q5').html(question[4]);
+      $('#Q6').html(question[5]);
+      $('#Q7').html(question[6]);
+      $('#Q8').html(question[7]);
+      $('#Q9').html(question[8]);
+      $('#Q10').html(question[9]);
+
+      //console.log("rowData:"+rowData[0])
+      //console.log("answer:"+answer)
+      //console.log("question:"+question)
+    }
+
+    function checkAns(parent) {
+      var weekDay = getWeekday();  
+      var today = new Date();
+
+      if(weekDay >= 6 || weekDay ==0){
+        var dd = today.getDate()-1-getHowmanyWeekendDays('2020-03-02');
+    }
+      else if(weekDay <= 5){
+        var dd = today.getDate()-1-getHowmanyWeekendDays('2020-03-02');
+    }//用日期當作每天執行的參數 (dd-1)*10
+
+      var data = spData;
+      var rowData = [];
+      var row = 0;
+      var question = new Array();
+      var answer = new Array();
+      var reply01 = $('#Q1_i').val().toLowerCase(); //全部轉成小寫
+      var reply02 = $('#Q2_i').val().toLowerCase(); 
+      var reply03 = $('#Q3_i').val().toLowerCase(); 
+      var reply04 = $('#Q4_i').val().toLowerCase(); 
+      var reply05 = $('#Q5_i').val().toLowerCase(); 
+      var reply06 = $('#Q6_i').val().toLowerCase(); 
+      var reply07 = $('#Q7_i').val().toLowerCase(); 
+      var reply08 = $('#Q8_i').val().toLowerCase(); 
+      var reply09 = $('#Q9_i').val().toLowerCase(); 
+      var reply10 = $('#Q10_i').val().toLowerCase(); 
+      //var reply_JS = document.getElementById("Q1_i").value;  JS抓法
+      var reply = [reply01,reply02,reply03,reply04,reply05,reply06,reply07,reply08,reply09,reply10];
+
+        //gs$cell 一次會讀整列的東西，所以有n欄，要讀到第二欄 必須用+1 +更多才能帶到rowData[1 2 3...n] 供寫入
+      for(var r=(dd-1)*20; r<(dd-1)*20+20; r=r+1) {
+          var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
+          var val = cell["$t"];
+
+           if (cell.col == 1) {
+                rowData = [];
+                row++;
+           }
+           rowData.push(val);
+           question[r]=rowData[0]; //值給question 
+           answer[r]=rowData[1];//將每行rowData值給answer 
+      }
+
+
+      answer = jQuery.grep(answer, function(n){ return (n); }); //移除空的陣列
+      
+      //移除陣列中重複的element
+      question = question.filter(function(elem, index, self) {
+        return index === self.indexOf(elem);
+      });
+
+      var correct_number=0;
+      var fault_number=0;
+      for(var i=0; i<answer.length;i++){
+        if(answer[i]==reply[i]){
+            correct_number = correct_number+1;
+        }
+        else{fault_number=fault_number+1;}
+      }
+      
+      alert("您這次答對"+correct_number+"題；答錯"+fault_number+"題"+'\n'+'答案如下：\n'+question[0]+answer[0]+'\n'+question[1]+answer[1]+'\n'+question[2]+answer[2]+'\n'+question[3]+answer[3]+'\n'+question[4]+answer[4]+'\n'
+      +question[5]+answer[5]+'\n'+question[6]+answer[6]+'\n'+question[7]+answer[7]+'\n'+question[8]+answer[8]+'\n'+question[9]+answer[9]);
+      console.log("answer:"+answer)
+      console.log("reply:"+reply)
+
+      //開啟dialog的參數
+      var opt = {
+        autoOpen: false,
+        modal: true,
+        resizable: false,
+        width: 'auto',
+        height: 'auto',
+        title: '滿分集點QR code'
+         };
+
+      if (correct_number == 10){$(function() {$("#dialog").dialog(opt).dialog('open');});}
+    }
+    
+
+    function getWeekday(){
+        //var nowH=new Date().getHours();
+        var nowD=new Date().getDay();
+        console.log('day :'+nowD);
+        //Logger.log('Hours : '+nowH);
+        //if(nowH>17||nowH<8||nowD==6||nowD==0){return}
+        return nowD;
+    }
+
+    function getHowmanyWeekendDays(fromDate){ //給起始天，會計算從起始天到今天總共多少個 六日 
+        fromDate = new Date(fromDate);
+        console.log('fromDate :'+fromDate);
+        toDate = new Date();
+        var weekendDays = 0;
+        dayMilliseconds = 1000 * 60 * 60 * 24;
+        date1 = fromDate;
+        date2 = toDate;
+
+        while (date1 <= date2) {
+        var day = date1.getDay();
+
+        if (day == 0 || day == 6) {
+            weekendDays++;
+        }
+        date1 = new Date(+date1 + dayMilliseconds);
+        }
+        console.log('weekendDays :'+weekendDays);
+        return weekendDays;
+    }
+
+    function initializeApp(data) {
+            //取得用戶身分
+            var userid = data.context.userId;
+            //
+            // ...
+            //
+    }
+
+    //新增
+    function AddRecord(amount, Type, Memo, DateTime) {
+            //資料檢查
+            if (amount == '' || Type == '' || Type.includes('(') || Type.includes(')')) {
+                alert('資料不完整!');
+                return;
+            }
+            //組出新增字串
+            var msg = "/add/";
+            msg = msg + amount + "/";
+            msg = msg + Type + "/";
+            msg = msg + Memo + "/";
+            msg = msg + DateTime + "/";
+            //把訊息以用戶的身分發送給LINE Bot
+            liff.sendMessages([
+                {
+                    type: 'text',
+                    text: msg
+                }
+            ])
+                .then(() => {
+                    //建立成功，關閉視窗
+                    liff.closeWindow();
+                });
+    }
+
+            
+
+
+    //頁面載入時執行
+    $(document).ready(function() {
+        //要執行的JQuery
+        readData($("#data"));
+        // liff.init(function (data) {
+        //         initializeApp(data);
+        // });
+
+        
+        //PAPA Parse版本，但中文會亂碼，故改採Google sheet 方式
+        // Papa.parse("https://duojia.github.io/LIFF/QA/QA1.csv", {
+        //     header: true,
+        //     encoding: "UTF-8",
+        //     download: true,
+        //     complete: function(results) {
+        //         console.log(results.data[0].ans)
+        //         for(var i =0;i<results.data.length;i++){
+        //             question[i] = results.data[i].question
+        //             answer[i] = results.data[i].ans
+        //         }
+        //         //修改Label值，用ID抓，來改變text值
+        //         $('#Q1').html(question[0]);
+        //         $('#Q2').html(question[1]);
+        //         $('#Q3').html(question[2]);
+        //         $('#Q4').html(question[3]);
+        //         $('#Q5').html(question[4]);
+        //         $('#Q6').html(question[5]);
+        //         $('#Q7').html(question[6]);
+        //         $('#Q8').html(question[7]);
+        //         $('#Q9').html(question[8]);
+        //         $('#Q10').html(question[9]);
+        //     }
+        // });
+    });
+    
+    //檢查驗證答案
+    $('#sendmessagebutton').on('click', function() {
+            checkAns($("#data"));
+            // liff.sendMessages([{
+            //     'type': 'text',
+            //     'text': "You've successfully sent a message! Hooray!"
+            // }]).then(function() {
+            //     window.alert('Message sent');
+            // }).catch(function(error) {
+            //     window.alert('Error sending message: ' + error);
+            // });
+    });
+
+    </script>
+
+    <script src="https://spreadsheets.google.com/feeds/cells/1sgZcl7U4iiVYCg_oOr4kYvXoyB4_NBSmyWLho2rRKBw/1/public/values?alt=json-in-script&callback=doData"></script>
+    <div id="data"/>
+    <script language="javascript" src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+    <!-- <script language="javascript" src="https://duojia.github.io/LIFF/liff-starter.js"></script> -->
+</body>
