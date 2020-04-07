@@ -93,23 +93,26 @@
       //調整97 100 155 159即可更改題目參數：
       //getHowmanyWeekendDays('2020-03-02')(從2020-03-09開始計算周末天數)
       //getDate() - 多少=1，從3/9開始就要-8
+      var dd = Math.round(new Date().getTime()/100000000); //2020.04.07:15863  2020.04.06:15862
+      
       var weekDay = getWeekday();
       var today = new Date();
-      if(weekDay >= 6 || weekDay ==0){
-          var dd = today.getDate()-getHowmanyWeekendDays('2020-03-09');
-      }
-      else if(weekDay <= 5){
-          var dd = today.getDate()-getHowmanyWeekendDays('2020-03-09');
-      }
+    //   if(weekDay >= 6 || weekDay ==0){
+    //       var dd = today.getDate()-getHowmanyWeekendDays('2020-03-09');
+    //   }
+    //   else if(weekDay <= 5){
+    //       var dd = today.getDate()-getHowmanyWeekendDays('2020-03-09');
+    //   }
       console.log("dd: "+dd)
-      var mm = today.getMonth() +1;//January is 0 dd 最後*mm (看n月開始-n當作1 的參數，每月增加)
+      console.log("getHowmanyWeekendDays('2020-03-09'): "+getHowmanyWeekendDays('2020-03-09'))
+      //var mm = today.getMonth() +1;//January is 0 dd 最後*mm (看n月開始-n當作1 的參數，每月增加)
       var data = spData;
       var rowData = [];
       var row = 0;
       var question = new Array();
         
         //dd-n 起始日期-n *20 對應到資料要空幾行
-      for(var r=(dd-9)*20; r<(dd-9)*20+20; r=r+1) { //gs$cell 一次會讀整列的東西，所以有n欄，有n欄，要讀到第二欄 必須用+1 +更多才能帶到rowData[1 2 3...n] 供寫入
+      for(var r=(dd-15839-getHowmanyWeekendDays('2020-03-09'))*20; r<(dd-15839-getHowmanyWeekendDays('2020-03-09'))*20+20; r=r+1) { //gs$cell 一次會讀整列的東西，所以有n欄，有n欄，要讀到第二欄 必須用+1 +更多才能帶到rowData[1 2 3...n] 供寫入
         console.log("r: "+r)
           var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
           var val = cell["$t"];
@@ -151,15 +154,20 @@
     }
 
     function checkAns(parent) {
-      var weekDay = getWeekday();  
-      var today = new Date();
+    //   var weekDay = getWeekday();  
+    //   var today = new Date();
 
-      if(weekDay >= 6 || weekDay ==0){
-        var dd = today.getDate()-getHowmanyWeekendDays('2020-03-09');
-    }
-      else if(weekDay <= 5){
-        var dd = today.getDate()-getHowmanyWeekendDays('2020-03-09');
-    }//用日期當作每天執行的參數 (dd-1)*10
+    //   if(weekDay >= 6 || weekDay ==0){
+    //     var dd = today.getDate()-getHowmanyWeekendDays('2020-03-09');
+    // }
+    //   else if(weekDay <= 5){
+    //     var dd = today.getDate()-getHowmanyWeekendDays('2020-03-09');
+    // }//用日期當作每天執行的參數 (dd-1)*10
+
+
+      var dd = Math.round(new Date().getTime()/100000000); //2020.04.07:15863  2020.04.06:15862
+      var weekDay = getWeekday();
+      var today = new Date();
 
       var data = spData;
       var rowData = [];
@@ -180,7 +188,7 @@
       var reply = [reply01,reply02,reply03,reply04,reply05,reply06,reply07,reply08,reply09,reply10];
 
         //gs$cell 一次會讀整列的東西，所以有n欄，要讀到第二欄 必須用+1 +更多才能帶到rowData[1 2 3...n] 供寫入
-      for(var r=(dd-9)*20; r<(dd-9)*20+20; r=r+1) {
+      for(var r=(dd-15839-getHowmanyWeekendDays('2020-03-09'))*20; r<(dd-15839-getHowmanyWeekendDays('2020-03-09'))*20+20; r=r+1) {
           var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
           var val = cell["$t"];
 
