@@ -94,7 +94,15 @@
       //getHowmanyWeekendDays('2020-03-02')(從2020-03-09開始計算周末天數)
       //getDate() - 多少=1，從3/9開始就要-8
       var dd = Math.round((new Date().getTime()-1800)/86400000); //2020.04.07:18359  2020.04.08:18360
-      if ( (new Date().getHours >= 20 && new Date().getMinutes >= 30) || (new Date().getHours >= 21)) then (dd = dd-1);
+        console.log('new Date().getHours'+new Date().getHours());
+        console.log('new Date().getMinutes'+new Date().getMinutes());
+      if ( (new Date().getHours() >= 20 && new Date().getMinutes() >= 30) || (new Date().getHours() >= 21)) 
+      { dd = dd-1;
+       
+         console.log('時間較晚dd-1'); }
+        else {dd=dd;
+         console.log('未觸發dd-1');
+        }
       console.log('題目調整dd:'+dd);
       //floor無條件捨去 round四捨五入 ceil無條件進位
       //由於dd Unixtime每天增加86400(從1970 1/1 00:00:00 +0時區開始，故調整為+8時區，08:30之時間，減少誤差，可參考https://zh-hant.date2unix.com/ Unix時間轉換網站進行理解)
@@ -169,7 +177,13 @@
     // }//用日期當作每天執行的參數 (dd-1)*10
 
     var dd = Math.round((new Date().getTime()-1800)/86400000); //2020.04.07:18359  2020.04.08:18360
-    if ( (new Date().getHours >= 20 && new Date().getMinutes >= 30) || (new Date().getHours >= 21)) then (dd = dd-1);
+    if ( (new Date().getHours() >= 20 && new Date().getMinutes() >= 30) || (new Date().getHours() >= 21)) 
+      { dd = dd-1;
+       
+         console.log('時間較晚dd-1'); }
+        else {dd=dd;
+         console.log('未觸發dd-1');
+        }
     console.log('答案調整dd:'+dd);
       //floor無條件捨去 round四捨五入 ceil無條件進位
 
