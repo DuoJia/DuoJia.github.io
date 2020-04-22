@@ -96,7 +96,7 @@
       var dd = Math.round((new Date().getTime()-1800)/86400000); //2020.04.07:18359  2020.04.08:18360
         console.log('new Date().getHours'+new Date().getHours());
         console.log('new Date().getMinutes'+new Date().getMinutes());
-      if ( (new Date().getHours() >= 20 && new Date().getMinutes() >= 30) || (new Date().getHours() >= 21)|| (new Date().getHours() <= 8)) 
+      if ( (new Date().getHours() >= 20 && new Date().getMinutes() >= 30) || (new Date().getHours() >= 21)|| (new Date().getHours() < 8)) 
       { dd = dd-1;
        
          console.log('時間較晚dd-1'); }
@@ -177,7 +177,7 @@
     // }//用日期當作每天執行的參數 (dd-1)*10
 
     var dd = Math.round((new Date().getTime()-1800)/86400000); //2020.04.07:18359  2020.04.08:18360
-    if ( (new Date().getHours() >= 20 && new Date().getMinutes() >= 30) || (new Date().getHours() >= 21)|| (new Date().getHours() <= 8)) 
+    if ( (new Date().getHours() >= 20 && new Date().getMinutes() >= 30) || (new Date().getHours() >= 21)|| (new Date().getHours() < 8)) 
       { dd = dd-1;
        
          console.log('時間較晚dd-1'); }
