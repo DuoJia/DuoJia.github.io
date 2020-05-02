@@ -1,0 +1,145 @@
+<head>
+      <title>每日一試</title>
+ </head>
+
+<body>
+    <div class="input">
+        <label id="Q1" for= "Q1">Q1</label>
+        <input id ='Q1_i' type="text" placeholder="your answer">
+          ...
+         
+         <label id="Q10" for= "Q10">Q10</label>
+        <input id ='Q10_i' type="text" placeholder="your answer">
+    </br>
+        <button id="sendmessagebutton">送出答案</button>
+    </div>
+</body>
+
+<script language="javascript">
+    var spData = null;
+    function doData(json) {
+        spData = json.feed.entry; //取回來的資料都會在 feed.entry 裡面
+    }
+    
+
+      // n = 常數（欲開始的日期unix值）
+      var dd = Math.round((new Date().getTime()-n /86400000); 
+
+      var weekDay = getWeekday();
+      var today = new Date();
+      var WeekendDays = getHowmanyWeekendDays('起始日期');
+      console.log("getHowmanyWeekendDays('起始日期'): "+WeekendDays)
+      var data = spData;
+      var rowData = [];
+      var row = 0;
+      var question = new Array();
+        
+        //dd-n 起始日期-n *20 對應到資料要空幾行
+      for(var r=(dd-n-WeekendDays)*20; r<(dd-n-WeekendDays)*20+20; r=r+1) { 
+          var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
+          var val = cell["$t"];
+
+           if (cell.col == 1) {
+                rowData = [];
+                row++;
+           }
+           rowData.push(val);
+           question[r]=rowData[0]; //rowData[0] 為每欄每列的資料
+           console.log("rowData[0]:"+rowData[0]+"  rowData[1]:"+rowData[1]+"  rowData[2]:"+rowData[2])
+       }
+
+      //移除陣列中重複的element
+      question = question.filter(function(elem, index, self) {
+        return index === self.indexOf(elem);
+      });
+
+      console.log("question:"+question)
+
+      $('#Q1').html(question[0]);
+         ...
+      $('#Q10').html(question[9]);
+    }
+
+    function checkAns(parent) {
+
+    var dd = Math.round((new Date().getTime()-n)/86400000); 
+      var weekDay = getWeekday();
+      var today = new Date();
+      var WeekendDays = getHowmanyWeekendDays('2020-03-09');
+
+      var data = spData;
+      var rowData = [];
+      var row = 0;
+      var question = new Array();
+      var answer = new Array();
+      var reply = [reply01,reply02,reply03,reply04,reply05,reply06,reply07,reply08,reply09,reply10];
+      for(var r=(dd-n-WeekendDays)*20; r<(dd-n-WeekendDays)*20+20; r=r+1) {
+          var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
+          var val = cell["$t"];
+
+           if (cell.col == 1) {
+                rowData = [];
+                row++;
+           }
+           rowData.push(val);
+           question[r]=rowData[0]; //值給question
+           answer[r]=rowData[1];//將每行rowData值給answer
+      }
+
+      var correct_number=0;
+      var fault_number=0;
+      for(var i=0; i<answer.length;i++){
+        if(answer[i]==reply[i]){
+            correct_number = correct_number+1;
+        }
+        else{fault_number=fault_number+1;}
+      }
+      
+      alert("您這次答對"+correct_number+"題；答錯"+fault_number+"題"+'\n'+'答案如下：\n'+question[0]+answer[0]+'\n'+question[1]+answer[1]+'\n'+question[2]+answer[2]+'\n'+question[3]+answer[3]+'\n'+question[4]+answer[4]+'\n'
+      +question[5]+answer[5]+'\n'+question[6]+answer[6]+'\n'+question[7]+answer[7]+'\n'+question[8]+answer[8]+'\n'+question[9]+answer[9]);
+      console.log("answer:"+answer)
+      console.log("reply:"+reply)
+
+      if (correct_number == 10){$(function() {$("#dialog").dialog(opt).dialog('open');});}
+    }
+    
+
+    function getWeekday(){
+        var nowD=new Date().getDay();
+        console.log('day :'+nowD);
+        return nowD;
+    }
+
+    function getHowmanyWeekendDays(fromDate){ //給起始天，會計算從起始天到今天總共多少個 六日
+        fromDate = new Date(fromDate);
+        console.log('fromDate :'+fromDate);
+        toDate = new Date();
+        var weekendDays = 0;
+        dayMilliseconds = 1000 * 60 * 60 * 24;
+        date1 = fromDate;
+        date2 = toDate;
+
+        while (date1 <= date2) {
+        var day = date1.getDay();
+
+        if (day == 0 || day == 6) {
+            weekendDays++;
+        }
+             date1 = new Date(+date1 + dayMilliseconds);
+        }
+        return weekendDays;
+    }
+            
+    //頁面載入時執行
+    $(document).ready(function() ｛
+        readData($("#data"));
+    });
+    
+    //檢查驗證答案
+    $('#sendmessagebutton').on('click', function() {
+            checkAns($("#data"));
+    });
+
+    </script>
+    <script src="google_Sheet_連結"></script>
+</body>
