@@ -130,7 +130,7 @@
       var question = new Array();
         
         //dd-n 起始日期-n *20 對應到資料要空幾行
-      for(var r=(dd-18335-WeekendDays)*40; r<(dd-18335-WeekendDays)*40+40; r=r+1) { //gs$cell 一次會讀整列的東西，所以有n欄，有n欄，要讀到第二欄 必須用+1 +更多才能帶到rowData[1 2 3...n] 供寫入
+      for(var r=(dd-18479-WeekendDays)*40; r<(dd-18479-WeekendDays)*40+40; r=r+1) { //gs$cell 一次會讀整列的東西，所以有n欄，有n欄，要讀到第二欄 必須用+1 +更多才能帶到rowData[1 2 3...n] 供寫入
         console.log("r: "+r)
           var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
           var val = cell["$t"];
@@ -229,7 +229,7 @@
       var reply = [reply01,reply02,reply03,reply04,reply05,reply06,reply07,reply08,reply09,reply10,reply11,reply12,reply13,reply14,reply15,reply16,reply17,reply18,reply19,reply20];
 
         //gs$cell 一次會讀整列的東西，所以有n欄，要讀到第二欄 必須用+1 +更多才能帶到rowData[1 2 3...n] 供寫入
-      for(var r=(dd-18335-WeekendDays)*40; r<(dd-18335-WeekendDays)*40+40; r=r+1) {
+      for(var r=(dd-18479-WeekendDays)*40; r<(dd-18479-WeekendDays)*40+40; r=r+1) {
           var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
           var val = cell["$t"];
 
@@ -351,6 +351,7 @@
     $(document).ready(function() {
         //要執行的JQuery
         readData($("#data"));
+    });
        
     
     //檢查驗證答案
@@ -371,5 +372,5 @@
     <script src="https://spreadsheets.google.com/feeds/cells/1sgZcl7U4iiVYCg_oOr4kYvXoyB4_NBSmyWLho2rRKBw/4/public/values?alt=json-in-script&callback=doData"></script>
     <div id="data"/>
     <script language="javascript" src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
-    <!-- <script language="javascript" src="https://duojia.github.io/LIFF/liff-starter.js"></script> -->
 </body>
+    
