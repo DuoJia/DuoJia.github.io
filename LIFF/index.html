@@ -124,7 +124,7 @@
       var question = new Array();
         
         //dd-n 起始日期-n *20 對應到資料要空幾行
-      for(var r=(dd-18335-WeekendDays)*20; r<(dd-18335-WeekendDays)*20+20; r=r+1) { //gs$cell 一次會讀整列的東西，所以有n欄，有n欄，要讀到第二欄 必須用+1 +更多才能帶到rowData[1 2 3...n] 供寫入
+      for(var r=(dd-18335-WeekendDays)*20-1; r<(dd-18335-WeekendDays)*20+20; r=r+1) { //gs$cell 一次會讀整列的東西，所以有n欄，有n欄，要讀到第二欄 必須用+1 +更多才能帶到rowData[1 2 3...n] 供寫入
         console.log("r: "+r)
           var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
           var val = cell["$t"];
@@ -210,7 +210,7 @@
       var reply = [reply01,reply02,reply03,reply04,reply05,reply06,reply07,reply08,reply09,reply10];
 
         //gs$cell 一次會讀整列的東西，所以有n欄，要讀到第二欄 必須用+1 +更多才能帶到rowData[1 2 3...n] 供寫入
-      for(var r=(dd-18335-WeekendDays)*20; r<(dd-18335-WeekendDays)*20+20; r=r+1) {
+      for(var r=(dd-18335-WeekendDays)*20-1; r<(dd-18335-WeekendDays)*20+20; r=r+1) {
           var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
           var val = cell["$t"];
 
