@@ -120,7 +120,7 @@
     //       var dd = today.getDate()-getHowmanyWeekendDays('2020-08-10');
     //   }
     //   else if(weekDay <= 5){
-    //       var dd = today.getDate()-getHowmanyWeekendDays('2020-08-10');
+    //       var dd = today.getDate()-getHowmanyWeekendDays('2020-08-10');  
     //   }
       console.log("getHowmanyWeekendDays('2020-08-10'): "+WeekendDays)
       //var mm = today.getMonth() +1;//January is 0 dd 最後*mm (看n月開始-n當作1 的參數，每月增加)
@@ -130,7 +130,7 @@
       var question = new Array();
         
         //dd-n 起始日期-n *20 對應到資料要空幾行
-      for(var r=(dd-18517-WeekendDays)*40; r<(dd-18517-WeekendDays)*40+40; r=r+1) { //gs$cell 一次會讀整列的東西，所以有n欄，有n欄，要讀到第二欄 必須用+1 +更多才能帶到rowData[1 2 3...n] 供寫入
+      for(var r=(dd-18510-WeekendDays)*40; r<(dd-18510-WeekendDays)*40+40; r=r+1) { //gs$cell 一次會讀整列的東西，所以有n欄，有n欄，要讀到第二欄 必須用+1 +更多才能帶到rowData[1 2 3...n] 供寫入
         console.log("r: "+r)
           var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
           var val = cell["$t"];
@@ -229,7 +229,7 @@
       var reply = [reply01,reply02,reply03,reply04,reply05,reply06,reply07,reply08,reply09,reply10,reply11,reply12,reply13,reply14,reply15,reply16,reply17,reply18,reply19,reply20];
 
         //gs$cell 一次會讀整列的東西，所以有n欄，要讀到第二欄 必須用+1 +更多才能帶到rowData[1 2 3...n] 供寫入
-      for(var r=(dd-18517-WeekendDays)*40; r<(dd-18517-WeekendDays)*40+40; r=r+1) {
+      for(var r=(dd-18510-WeekendDays)*40; r<(dd-18510-WeekendDays)*40+40; r=r+1) {
           var cell = data[r]["gs$cell"];//可以透過 gs$cell 來找到所屬的欄/列
           var val = cell["$t"];
 
